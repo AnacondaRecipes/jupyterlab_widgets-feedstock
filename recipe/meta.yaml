@@ -1,5 +1,5 @@
-{% set version = "1.0.0" %}
-{% set sha256 = "5c1a29a84d3069208cb506b10609175b249b6486d6b1cbae8fcde2a11584fb78" %}
+{% set version = "1.0.2" %}
+{% set sha256 = "7885092b2b96bf189c3a705cc3c412a4472ec5e8382d0b47219a66cccae73cfa" %}
 
 package:
   name: jupyterlab_widgets
