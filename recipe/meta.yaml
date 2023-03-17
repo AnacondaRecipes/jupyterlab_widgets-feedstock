@@ -1,26 +1,27 @@
-{% set version = "1.0.0" %}
-{% set sha256 = "5c1a29a84d3069208cb506b10609175b249b6486d6b1cbae8fcde2a11584fb78" %}
+{% set name = "jupyterlab_widgets" %}
+{% set version = "3.0.5" %}
 
 package:
-  name: jupyterlab_widgets
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/j/jupyterlab_widgets/jupyterlab_widgets-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: eeaecdeaf6c03afc960ddae201ced88d5979b4ca9c3891bcb8f6631af705f5ef
 build:
-  number: 1
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps
 
 requirements:
   host:
     - pip
-    - python >=3.6
+    - python
+    - wheel
     - jupyter-packaging
-
   run:
-    - python >=3.6
+    - python
+  run_constrained:
+    - jupyterlab >=3,<4
 
 test:
   imports:
@@ -34,10 +35,17 @@ about:
   home: https://github.com/jupyter-widgets/ipywidgets
   summary: JupyterLab extension providing HTML widgets
   license: BSD-3-Clause
+  license_family: BSD
   license_file: LICENSE
+  doc_url: https://github.com/jupyter-widgets/ipywidgets/tree/main/python/jupyterlab_widgets
+  dev_url: https://github.com/jupyter-widgets/ipywidgets/tree/main/python/jupyterlab_widgets
+  description: |
+    A JupyterLab 3.0 extension for Jupyter/IPython widgets.
 
 extra:
   recipe-maintainers:
     - jasongrout
     - SylvainCorlay
+    - martinRenou
     - jtpio
+    - bollwyvl
