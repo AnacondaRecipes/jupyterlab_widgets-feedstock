@@ -17,7 +17,7 @@ requirements:
   host:
     - pip
     - python
-    - jupyter-packaging >=0.10,<2
+    - jupyter-packaging >=0.10,<1
   run:
     - python
   run_constrained:
@@ -45,7 +45,7 @@ about:
   doc_url: https://github.com/jupyter-widgets/ipywidgets/tree/main/python/jupyterlab_widgets
   dev_url: https://github.com/jupyter-widgets/ipywidgets/tree/main/python/jupyterlab_widgets
   description: |
-    A JupyterLab 4.0 extension for Jupyter/IPython widgets.
+    A JupyterLab 3.0/4.0 extension for Jupyter/IPython widgets.
 
 extra:
   recipe-maintainers:
