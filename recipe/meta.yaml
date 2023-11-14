@@ -1,34 +1,39 @@
 {% set name = "jupyterlab_widgets" %}
-{% set version = "3.0.5" %}
+{% set version = "3.0.9" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: eeaecdeaf6c03afc960ddae201ced88d5979b4ca9c3891bcb8f6631af705f5ef
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/jupyterlab_widgets-{{ version }}.tar.gz
+  sha256: 6005a4e974c7beee84060fdfba341a3218495046de8ae3ec64888e5fe19fdb4c
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv --no-deps
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: True # [py<37]
 
 requirements:
   host:
     - pip
     - python
-    - wheel
-    - jupyter-packaging
+    - jupyter-packaging >=0.10,<2
   run:
     - python
   run_constrained:
-    - jupyterlab >=3,<4
+    - jupyterlab >=3,<5
 
 test:
   imports:
     - jupyterlab_widgets
   commands:
     - pip check
+    - jupyter labextension list
+    - jupyter labextension list 1>labextensions 2>&1
+    - grep -iE "@jupyter-widgets/jupyterlab-manager.*OK" labextensions
   requires:
+    - jupyterlab
+    - m2-grep  # [win]
     - pip
 
 about:
@@ -40,7 +45,7 @@ about:
   doc_url: https://github.com/jupyter-widgets/ipywidgets/tree/main/python/jupyterlab_widgets
   dev_url: https://github.com/jupyter-widgets/ipywidgets/tree/main/python/jupyterlab_widgets
   description: |
-    A JupyterLab 3.0 extension for Jupyter/IPython widgets.
+    A JupyterLab 4.0 extension for Jupyter/IPython widgets.
 
 extra:
   recipe-maintainers:
