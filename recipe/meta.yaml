@@ -17,7 +17,7 @@ requirements:
   host:
     - pip
     - python
-    - jupyter-packaging >=0.10,<1
+    - jupyter-packaging >=0.10,<2
   run:
     - python
   run_constrained:
