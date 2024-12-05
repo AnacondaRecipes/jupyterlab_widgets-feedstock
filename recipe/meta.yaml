@@ -18,8 +18,6 @@ requirements:
     - pip
     - python
     - jupyter-packaging >=0.10,<2
-    - setuptools
-    - wheel
   run:
     - python
   run_constrained:
