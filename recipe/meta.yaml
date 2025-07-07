@@ -24,13 +24,13 @@ requirements:
   run:
     - python
   run_constrained:
-    - jupyterlab >=4,<5
+    - jupyterlab >=3,<5
 
 test:
   imports:
     - jupyterlab_widgets
   requires:
-    - jupyterlab >=4,<5
+    - jupyterlab >=3,<5
     - msys2-grep  # [win]
     - pip
   commands:
@@ -41,7 +41,7 @@ test:
 
 about:
   home: https://github.com/jupyter-widgets/ipywidgets
-  summary: JupyterLab extension providing HTML widgets
+  summary: Jupyter interactive widgets for JupyterLab
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
