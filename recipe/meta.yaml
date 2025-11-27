@@ -10,7 +10,7 @@ source:
   sha256: 2920888a0c2922351a9202817957a68c07d99673504d6cd37345299e971bb08b
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   skip: true  # [py<37]
 
@@ -37,7 +37,7 @@ test:
     - pip check
     - jupyter labextension list
     - jupyter labextension list 1>labextensions 2>&1
-    - "grep -iE \"@jupyter-widgets/jupyterlab-manager.*OK\" labextensions"
+    - grep -iE "@jupyter-widgets/jupyterlab-manager.*OK" labextensions
 
 about:
   home: https://github.com/jupyter-widgets/ipywidgets
@@ -49,6 +49,7 @@ about:
   dev_url: https://github.com/jupyter-widgets/ipywidgets/tree/main/python/jupyterlab_widgets
   description: |
     A JupyterLab 3.0/4.0 extension for Jupyter/IPython widgets.
+
 
 extra:
   recipe-maintainers:
