@@ -6,7 +6,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/jupyterlab_widgets-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 423da05071d55cf27a9e602216d35a3a65a3e41cdf9c5d3b643b814ce38c19e0
 
 build:
@@ -20,7 +20,7 @@ requirements:
     - python
     - hatchling >=1.5.0
     - hatch-jupyter-builder >=0.8.1
-    - jupyterlab >=4.0,<5.dev0
+    - jupyterlab >=4.0,<5.0
   run:
     - python
   run_constrained:
