@@ -10,7 +10,7 @@ source:
   sha256: 423da05071d55cf27a9e602216d35a3a65a3e41cdf9c5d3b643b814ce38c19e0
 
 build:
-  number: 1
+  number: 2
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   skip: true  # [py<37]
 
@@ -31,13 +31,13 @@ test:
     - jupyterlab_widgets
   requires:
     - jupyterlab >=3,<5
-    - msys2-grep  # [win]
     - pip
   commands:
     - pip check
     - jupyter labextension list
     - jupyter labextension list 1>labextensions 2>&1
-    - grep -iE "@jupyter-widgets/jupyterlab-manager.*OK" labextensions
+    - grep -iE "@jupyter-widgets/jupyterlab-manager.*OK" labextensions  # [not win]
+    - findstr /i /r /c:"@jupyter-widgets/jupyterlab-manager.*OK" labextensions  # [win]
 
 about:
   home: https://github.com/jupyter-widgets/ipywidgets
