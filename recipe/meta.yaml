@@ -17,7 +17,10 @@ source:
 
 build:
   number: 2
+  noarch: python
 {% if version == "3.0.16" %}
+  # noarch, and skipping linux aarch64 as the node build fails on this platform
+  skip: true  # [linux and aarch64]
   script: |
     jlpm
     jlpm build
@@ -28,7 +31,6 @@ build:
 {% else %}
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 {% endif %}
-  skip: true  # [py<37]
 
 requirements:
   host:
@@ -41,7 +43,7 @@ requirements:
     - yarn
 {% endif %}
   run:
-    - python
+    - python >=3.7
   run_constrained:
     - jupyterlab >=3,<5
 
@@ -51,6 +53,7 @@ test:
   requires:
     - jupyterlab >=3,<5
     - pip
+    - python 3.10
   commands:
     - pip check
 
