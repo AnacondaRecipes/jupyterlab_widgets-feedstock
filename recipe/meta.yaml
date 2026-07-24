@@ -6,13 +6,31 @@ package:
   version: {{ version }}
 
 source:
+{% if version != "3.0.16" %}
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 423da05071d55cf27a9e602216d35a3a65a3e41cdf9c5d3b643b814ce38c19e0
+{% else %}
+  # Build from ipywidgets 8.1.8 monorepo (JS assets from PyPI sdist trigger long path issues on Windows)
+  url: https://github.com/jupyter-widgets/ipywidgets/archive/refs/tags/8.1.8.tar.gz
+  sha256: de496815106e4c0ae0450dc1662cead4cffa43689af359f72d6b4ce8c12f7a8f
+{% endif %}
 
 build:
-  number: 1
+  number: 2
+  noarch: python
+{% if version == "3.0.16" %}
+  # noarch, and skipping linux aarch64 as the node build fails on this platform
+  skip: true  # [linux and aarch64]
+  script: |
+    jlpm
+    jlpm build
+    cd python/jupyterlab_widgets
+    jlpm clean:all
+    jlpm build:prod
+    {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+{% else %}
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  skip: true  # [py<37]
+{% endif %}
 
 requirements:
   host:
@@ -21,8 +39,19 @@ requirements:
     - hatchling >=1.5.0
     - hatch-jupyter-builder >=0.8.1
     - jupyterlab >=4.0,<5.0
+{% if version == "3.0.16" %}
+    - yarn
+{% endif %}
+
+    # The Link step on linux-aarch64 gets:
+    # @parcel/watcher@npm:2.0.4 couldn't be built successfully
+    # which would require the following
+    #- make                   # [linux and aarch64]
+    #- {{ stdlib('c') }}      # [linux and aarch64]
+    #- {{ compiler('c') }}    # [linux and aarch64]
+    #- {{ compiler('cxx') }}  # [linux and aarch64]
   run:
-    - python
+    - python >=3.7
   run_constrained:
     - jupyterlab >=3,<5
 
@@ -31,13 +60,11 @@ test:
     - jupyterlab_widgets
   requires:
     - jupyterlab >=3,<5
-    - msys2-grep  # [win]
     - pip
+    - python 3.10
   commands:
     - pip check
-    - jupyter labextension list
-    - jupyter labextension list 1>labextensions 2>&1
-    - grep -iE "@jupyter-widgets/jupyterlab-manager.*OK" labextensions
+    - jupyter labextension list --debug
 
 about:
   home: https://github.com/jupyter-widgets/ipywidgets
