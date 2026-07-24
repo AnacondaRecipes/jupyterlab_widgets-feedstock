@@ -38,7 +38,9 @@ def do(args: list[str], expect_output: str | None = None) -> int:
     stdout, stderr = proc.communicate()
     rc = proc.returncode
     if expect_output:
-        if re.search(expect_output, f"{stdout}\n{stderr}"):
+        # The OK is lowercase on Windows:
+        # @jupyter-widgets/jupyterlab-manager v5.0.15 enabled ok (python, jupyterlab_widgets)
+        if re.search(expect_output, f"{stdout}\n{stderr}", re.IGNORECASE):
             print(f"... OK found expected pattern {expect_output}")
         else:
             print("STDOUT", stdout)

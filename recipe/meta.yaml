@@ -42,6 +42,14 @@ requirements:
 {% if version == "3.0.16" %}
     - yarn
 {% endif %}
+
+    # The Link step on linux-aarch64 gets:
+    # @parcel/watcher@npm:2.0.4 couldn't be built successfully
+    # which would require the following
+    #- make                   # [linux and aarch64]
+    #- {{ stdlib('c') }}      # [linux and aarch64]
+    #- {{ compiler('c') }}    # [linux and aarch64]
+    #- {{ compiler('cxx') }}  # [linux and aarch64]
   run:
     - python >=3.7
   run_constrained:
@@ -56,6 +64,7 @@ test:
     - python 3.10
   commands:
     - pip check
+    - jupyter labextension list --debug
 
 about:
   home: https://github.com/jupyter-widgets/ipywidgets
